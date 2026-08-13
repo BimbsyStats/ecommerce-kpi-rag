@@ -6,11 +6,16 @@ services:
       - "8501:8501"
     env_file:
       - .env
+    enviroment:
+      -KAGGLE_USERNAME=${KAGGLE_USERNAME}
+      -KAGGLE_KEY=${KAGGLE_KEY}
     volumes:
       - ./data:/app/data
       - ./feedback.db:/app/feedback.db
-    command: streamlit run app.py --server.port=8501 --server.address=0.0.0.0
-
+    command: >
+      sh -c "./scripts/download_data.sh &&
+      python -m src.ingest &&
+      streamlit run app.py --server.port=8501 --server.address=0.0.0.0"
   dashboard:
     build: .
     ports:
