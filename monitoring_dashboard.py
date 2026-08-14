@@ -1,9 +1,12 @@
-import streamlit as st
 import pandas as pd
-from src.monitoring import get_all_feedback
+import streamlit as st
+from src.monitoring import get_all_feedback, init_db
 
-st.set_page_config(page_title="RAG Monitoring Dashboard", page_icon="\U0001F4C8")
+st.set_page_config(page_title="RAG Monitoring Dashboard", page_icon="📈")
 st.title("Monitoring Dashboard")
+
+# Initialize database to ensure DB file and directories exist before reading
+init_db()
 
 df = get_all_feedback()
 
@@ -13,12 +16,17 @@ else:
     st.metric("Total questions asked", len(df))
     st.metric(
         "Average rating",
-        round(df["rating"].dropna().mean(), 2) if df["rating"].notna().any() else "N/A",
+        (
+            round(df["rating"].dropna().mean(), 2)
+            if df["rating"].notna().any()
+            else "N/A"
+        ),
     )
-    st.metric("Average response time (ms)", round(df["response_time_ms"].mean(), 1))
+    st.metric(
+        "Average response time (ms)", round(df["response_time_ms"].mean(), 1)
+    )
 
-    df["timestamp"] = pd.to_datetime(df["timestamp"])
-    df["date"] = df["timestamp"].dt.date
+    df["date"] = pd.to_datetime(df["timestamp"]).dt.date
 
     st.subheader("Questions per day")
     st.bar_chart(df.groupby("date").size())
@@ -34,3 +42,4 @@ else:
 
     st.subheader("Recent questions")
     st.dataframe(df[["timestamp", "question", "engine", "rating"]].tail(20))
+
