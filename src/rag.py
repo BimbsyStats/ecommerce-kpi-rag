@@ -1,27 +1,26 @@
+"""
+Groq-based generation for the ecommerce KPI RAG assistant.
+
+Usage:
+    from src.rag_index import text_search
+    from src.rag import rag_answer
+
+    answer, sources = rag_answer("Which category generated the most revenue?", text_search)
+"""
 import os
-from groq import Groq
+
 from dotenv import load_dotenv
+from groq import Groq
 
-load_dotenv() # reads your .env file so GROQ_API_KEY is available
+load_dotenv()
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
-MODEL = "qwen/qwen3.6-27b"
+MODEL = "openai/gpt-oss-120b"
 
-# Prompt style 1: strict and factual, refuses to guess
-PROMPT_STRICT = """You are a precise data analyst assistant. Answer the
-question using ONLY the context below. If the answer is not in the
-context, say "I don't have that information."
-
-CONTEXT:
-{context}
-
-QUESTION: {question}
-
-ANSWER (be concise and factual, cite numbers exactly as given):"""
-
-# Prompt style 2: friendlier, conversational tone
-PROMPT_CONVERSATIONAL = """You are a friendly business intelligence
-assistant helping an ecommerce team understand their KPIs. Use the
-context below to answer naturally, as if explaining to a colleague.
+PROMPT_TEMPLATE = """You are an ecommerce analytics assistant. Answer the QUESTION using only
+the numbers in CONTEXT. Rules:
+- Quote exact figures from the context — never estimate or round differently than the source.
+- If the context does not contain the answer, say "I don't have that data" instead of guessing.
+- Keep the answer to 1-2 sentences.
 
 CONTEXT:
 {context}
@@ -30,32 +29,18 @@ QUESTION: {question}
 
 ANSWER:"""
 
-def build_context(retrieved_docs):
-    # Joins all retrieved sentences into one block of text for the prompt
-    return "\n".join(d["text"] for d in retrieved_docs)
 
-def answer_question(question, engine, prompt_template=PROMPT_STRICT, top_k=5):
-     # Step 1: find the most relevant sentences (using retrieval.py)
-    retrieved = engine.search(question, top_k=top_k)
-    # Step 2: build the context block from those sentences
-    context = build_context(retrieved)
-    # Step 3: fill in the prompt template with context + question
-    prompt = prompt_template.format(context=context, question=question)
-    # Step 4: send it to the Groq LLM and get the answer back
+def build_context(results):
+    return "\n".join(f"- {r['text']}" for r in results)
+
+
+def rag_answer(question, search_fn, num_results=5):
+    results = search_fn(question, num_results=num_results)
+    context = build_context(results)
+    prompt = PROMPT_TEMPLATE.format(context=context, question=question)
     response = client.chat.completions.create(
         model=MODEL,
         messages=[{"role": "user", "content": prompt}],
-        reasoning_effort="none",
+        reasoning_effort="low",
     )
-    return {"answer": response.choices[0].message.content, "sources": retrieved}
-
-if __name__ == "__main__":
-    from src.retrieval import build_engines
-    text_engine, vector_engine = build_engines()
-    question = "Which product category generated the most revenue?"
-    print("--- Strict prompt ---")
-    result = answer_question(question, text_engine, PROMPT_STRICT)
-    print(result["answer"])
-    print("\n--- Conversational prompt ---")
-    result2 = answer_question(question, text_engine, PROMPT_CONVERSATIONAL)
-    print(result2["answer"])
+    return response.choices[0].message.content, results

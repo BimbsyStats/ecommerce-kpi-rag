@@ -1,0 +1,212 @@
+[
+  {
+    "question": "What is the total revenue in BR?",
+    "doc_id": 7,
+    "answer_minimal": "The total revenue in Brazil (BR) is **$836,797.43**.",
+    "answer_structured": "The total revenue in Brazil (BR) is **$836,797.43**.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "What is the average order value for Electronics?",
+    "doc_id": 1,
+    "answer_minimal": "The average order value for the Electronics category is **$163.64**.",
+    "answer_structured": "The average order value for Electronics is $163.64.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "What was the revenue in 2021-06?",
+    "doc_id": 22,
+    "answer_minimal": "The revenue for\u202f2021\u201106\u202fwas **$219,639.13**.",
+    "answer_structured": "The revenue in\u202f2021\u201106\u202fwas\u202f$219,639.13.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "What was the revenue in 2021-02?",
+    "doc_id": 18,
+    "answer_minimal": "The revenue in\u202f2021\u201102\u202fwas **$207,915.83**.",
+    "answer_structured": "The revenue in\u202f2021\u201102 was\u202f$207,915.83.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "How much revenue comes from Platinum tier customers?",
+    "doc_id": 15,
+    "answer_minimal": "The Platinum tier contributes **$318,896.53** in revenue.",
+    "answer_structured": "The revenue from Platinum tier customers is\u202f$318,896.53.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "How many customers do we have in CA?",
+    "doc_id": 8,
+    "answer_minimal": "5,982 customers in\u202fCA.",
+    "answer_structured": "5,982 unique customers.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "How many customers do we have in AU?",
+    "doc_id": 6,
+    "answer_minimal": "4,243 customers.",
+    "answer_structured": "We have **4,243** unique customers in AU.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "What is the average order value for Sports?",
+    "doc_id": 5,
+    "answer_minimal": "The average order value for the Sports category is **$94.97**.",
+    "answer_structured": "The average order value for Sports is **$94.97**.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "What was the revenue in 2023-01?",
+    "doc_id": 41,
+    "answer_minimal": "The revenue for\u202f2023\u201101\u202fwas **$226,936.91**.",
+    "answer_structured": "The revenue in\u202f2023\u201101 was\u202f$226,936.91.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "How much revenue did the Electronics category generate?",
+    "doc_id": 1,
+    "answer_minimal": "The Electronics category generated **$3,452,007.19** in revenue.",
+    "answer_structured": "The Electronics category generated **$3,452,007.19** in revenue.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "What is the average order value for Beauty?",
+    "doc_id": 0,
+    "answer_minimal": "The average order value for the Beauty category is **$40.08**.",
+    "answer_structured": "The average order value for Beauty is **$40.08**.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "What is the average order value for Fashion?",
+    "doc_id": 2,
+    "answer_minimal": "The average order value for Fashion is **$67.12**.",
+    "answer_structured": "The average order value for Fashion is **$67.12**.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "What was the revenue in 2023-12?",
+    "doc_id": 52,
+    "answer_minimal": "The revenue for\u202f2023\u201112\u202fwas\u202f**$290,863.03**.",
+    "answer_structured": "The revenue in\u202f2023\u201112 was\u202f$290,863.03.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "What is the total revenue across all orders?",
+    "doc_id": 58,
+    "answer_minimal": "The total revenue across all orders is **$8,373,966.36**.",
+    "answer_structured": "The total revenue across all orders is **$8,373,966.36**.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  },
+  {
+    "question": "What was the revenue in 2021-03?",
+    "doc_id": 19,
+    "answer_minimal": "The revenue for\u202f2021\u201103\u202fwas **$228,099.36**.",
+    "answer_structured": "The revenue in 2021\u201103 was **$228,099.36**.",
+    "judge_minimal": {
+      "faithfulness": 5,
+      "relevance": 5
+    },
+    "judge_structured": {
+      "faithfulness": 5,
+      "relevance": 5
+    }
+  }
+]

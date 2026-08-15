@@ -1,86 +1,104 @@
-
-"""Automated ingestion pipeline.
-
-Run with:
-    python -m src.ingest
-
-Takes raw CSVs in data/ and produces data/documents.json, ready for
-the retrieval layer. This is the single entry point a reviewer (or a
-scheduled job) would run to (re)build the knowledge base from scratch.
 """
+Builds data/documents.json from the raw CSVs.
 
-import sys
-import time
+This is the script-form of Notebooks 01 + 02's data prep, so the Streamlit app (or a Docker
+container) can rebuild the document store without needing to run notebooks. Run it directly:
+
+    python -m src.ingest
+"""
 import json
-from pathlib import Path
+import os
 
-from src.load_data import load_raw
-from src.build_documents import build_all_documents
+import pandas as pd
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-
-
-def validate_raw_data():
-    """Basic sanity checks before we trust the data."""
-
-    data = load_raw()
-
-    required = {
-        "customers": ["customer_id"],
-        "products": ["product_id", "category", "brand"],
-        "transactions": [
-            "transaction_id",
-            "product_id",
-            "customer_id",
-            "gross_revenue",
-        ],
-        "campaigns": ["campaign_id"],
-    }
-
-    for name, cols in required.items():
-        df = data[name]
-
-        missing = [c for c in cols if c not in df.columns]
-
-        if missing:
-            raise ValueError(
-                f"{name}.csv is missing required columns: {missing}"
-            )
-
-        if df.empty:
-            raise ValueError(f"{name}.csv loaded but is empty")
-
-    print("Validation passed: all required files and columns present.")
-    return data
+_DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 
 
-def run_ingestion():
-    start = time.time()
+def load_raw():
+    customers = pd.read_csv(os.path.join(_DATA_DIR, "customers.csv"))
+    products = pd.read_csv(os.path.join(_DATA_DIR, "products.csv"))
+    transactions = pd.read_csv(os.path.join(_DATA_DIR, "transactions.csv"), parse_dates=["timestamp"])
+    campaigns = pd.read_csv(os.path.join(_DATA_DIR, "campaigns.csv"))
+    return customers, products, transactions, campaigns
 
-    print("Starting ingestion pipeline...")
 
-    validate_raw_data()
+def build_merged(customers, products, transactions):
+    df = transactions.merge(products, on="product_id", how="left")
+    df = df.merge(customers, on="customer_id", how="left", suffixes=("", "_customer"))
+    # Exclude rows missing product_id / gross_revenue in the raw source data (~10.1% of rows,
+    # see Notebook 01 for the investigation confirming this is a source data issue, not a join bug)
+    df = df.dropna(subset=["gross_revenue"])
+    df["month"] = df["timestamp"].dt.to_period("M").astype(str)
+    return df
 
-    documents = build_all_documents()
 
-    out_path = DATA_DIR / "documents.json"
+def build_documents(df, campaigns):
+    documents = []
+    doc_id = 0
 
-    with open(out_path, "w") as f:
-        json.dump(documents, f, indent=2)
+    def add_doc(text, doc_type, **meta):
+        nonlocal doc_id
+        documents.append({"id": doc_id, "type": doc_type, "text": text, **meta})
+        doc_id += 1
 
-    elapsed = time.time() - start
+    for cat, g in df.groupby("category"):
+        add_doc(
+            f"Category: {cat}. Total revenue: ${g['gross_revenue'].sum():,.2f}. "
+            f"Orders: {len(g):,}. Average order value: ${g['gross_revenue'].mean():,.2f}. "
+            f"Refund rate: {g['refund_flag'].mean():.2%}.",
+            doc_type="category", category=cat,
+        )
 
-    print(
-        f"Ingestion complete: {len(documents)} documents written to {out_path}"
+    for country, g in df.groupby("country"):
+        add_doc(
+            f"Country: {country}. Total revenue: ${g['gross_revenue'].sum():,.2f}. "
+            f"Orders: {len(g):,}. Average order value: ${g['gross_revenue'].mean():,.2f}. "
+            f"Unique customers: {g['customer_id'].nunique():,}.",
+            doc_type="country", country=country,
+        )
+
+    for tier, g in df.groupby("loyalty_tier"):
+        add_doc(
+            f"Loyalty tier: {tier}. Total revenue: ${g['gross_revenue'].sum():,.2f}. "
+            f"Orders: {len(g):,}. Average order value: ${g['gross_revenue'].mean():,.2f}.",
+            doc_type="loyalty_tier", loyalty_tier=tier,
+        )
+
+    for month, g in df.groupby("month"):
+        add_doc(
+            f"Month: {month}. Total revenue: ${g['gross_revenue'].sum():,.2f}. Orders: {len(g):,}.",
+            doc_type="month", month=month,
+        )
+
+    df_campaigns = df[df["campaign_id"] > 0].merge(campaigns, on="campaign_id", how="left")
+    for channel, g in df_campaigns.groupby("channel"):
+        add_doc(
+            f"Marketing channel: {channel}. Revenue attributed: ${g['gross_revenue'].sum():,.2f}. "
+            f"Orders: {len(g):,}.",
+            doc_type="channel", channel=channel,
+        )
+
+    add_doc(
+        f"Overall summary: Total revenue across all orders is ${df['gross_revenue'].sum():,.2f} "
+        f"from {len(df):,} orders. Average order value is ${df['gross_revenue'].mean():,.2f}. "
+        f"Refund rate is {df['refund_flag'].mean():.2%}.",
+        doc_type="overall",
     )
-    print(f"Elapsed: {elapsed:.2f}s")
 
     return documents
 
 
+def main():
+    customers, products, transactions, campaigns = load_raw()
+    df = build_merged(customers, products, transactions)
+    df.to_csv(os.path.join(_DATA_DIR, "merged_transactions.csv"), index=False)
+
+    documents = build_documents(df, campaigns)
+    with open(os.path.join(_DATA_DIR, "documents.json"), "w") as f:
+        json.dump(documents, f, indent=2)
+
+    print(f"Built {len(documents)} documents -> data/documents.json")
+
+
 if __name__ == "__main__":
-    try:
-        run_ingestion()
-    except Exception as e:
-        print(f"Ingestion failed: {e}", file=sys.stderr)
-        sys.exit(1)
+    main()

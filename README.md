@@ -53,7 +53,7 @@ CSV files (customers, products, transactions, campaigns)
 ```
 
 **Retrieval flow:** question -> retrieve top-5 KPI documents (text or vector search) -> build
-prompt with retrieved context -> Groq (`qwen/qwen3-32b`) -> answer.
+prompt with retrieved context -> Groq (`openai/gpt-oss-120b`) -> answer.
 
 Rather than indexing raw transactions, the pipeline pre-aggregates the data into 59 short KPI
 summary documents (one per category, country, loyalty tier, month, and campaign channel, plus
@@ -63,31 +63,54 @@ one overall summary). This keeps retrieval focused on the kind of question users
 ## Project structure
 
 ```
-.
-├── README.md
-├── requirements.txt
-├── Dockerfile
-├── docker-compose.yml
-├── app.py                       # Streamlit interface
-├── scripts/
-│   └── download_data.sh         # fetches events.csv from Kaggle if needed (not committed)
-├── src/
-│   ├── ingest.py                # builds documents.json from the CSVs
-│   ├── rag_index.py             # shared text_search / vector_search functions
-│   └── rag.py                   # Groq generation
-├── data/
-│   ├── customers.csv
-│   ├── products.csv
-│   ├── transactions.csv
-│   ├── campaigns.csv
-│   ├── merged_transactions.csv  # output of Notebook 01
-│   ├── documents.json           # output of Notebook 02
-│   └── eval_questions.json      # output of Notebook 03
-└── notebooks/
-    ├── 01_explore_data.ipynb
-    ├── 02_build_rag_pipeline.ipynb
-    ├── 03_retrieval_evaluation.ipynb
-    └── 04_llm_evaluation.ipynb
+|   .env.example
+|   .gitignore
+|   app.py                # Streamlit interface
+|   docker-compose.yml
+|   Dockerfile
+|   feedback.db
+|   monitoring_dashboard.py
+|   README.md
+|   requirements.txt
+|
++---data
+|       campaigns.csv
+|       category_revenue.png
+|       customers.csv
+|       documents.json   # output of Notebook 02
+|       eval_questions.json   # output of Notebook 03
+|       events.csv
+|       llm_eval_results.json
+|       merged_transactions.csv  # output of Notebook 01
+|       monthly_revenue.png
+|       products.csv
+|       transactions.csv
+|       
++---docs
+|       screenshots
+|       
++---notebooks
+|       01_explore_data.ipynb
+|       02_build_rag_pipeline.ipynb
+|       03_retrieval_evaluation.ipynb
+|       04_llm_evaluation.ipynb
+|       
++---src
+|   |   build_documents.py
+|   |   evaluation.py
+|   |   ingest.py  # builds documents.json from the CSVs   
+|   |   load_data.py
+|   |   monitoring.py
+|   |   rag.py  # Groq generation
+|   |   rag_index.py  # shared text_search / vector_search functions
+|   |   retrieval.py
+|           
+\---tests
+    |   test_retrieval.py
+    |   
+ \---scripts
+     |    download_data.sh    # fetches events.csv from Kaggle if needed (not committed)
+
 ```
 
 ## Setup
@@ -123,19 +146,22 @@ Retrieval and LLM evaluation are run in Notebooks 03 and 04. Fill in these table
 running them locally (they require `minsearch`, `sentence-transformers`, and a Groq API key,
 so results aren't pre-computed in this repo):
 
-**Retrieval — Hit Rate / MRR @ k=5** (72 evaluation questions, one ground-truth document per question)
+**Retrieval — Hit Rate / MRR @ k=6** (72 evaluation questions, one ground-truth document per question)
 
-| Approach | Hit Rate@5 | MRR@5 |
-|---|---|---|
-| Text search (minsearch) | _fill in_ | _fill in_ |
-| Vector search (sentence-transformers) | _fill in_ | _fill in_ |
+| Approach | Hit Rate@6 | MRR@6 |
+|---|------------|-------|
+| Text search (minsearch) | 1.000      | 0.859 |
+| Vector search (sentence-transformers) | 0.764      | 0.632 |
 
 **Generation — LLM-as-judge, 1-5 scale** (15-question sample)
 
 | Prompt | Avg. Faithfulness | Avg. Relevance |
-|---|---|---|
-| Minimal | _fill in_ | _fill in_ |
-| Structured | _fill in_ | _fill in_ |
+|---|-------------------|----------------|
+| Minimal | 5.0               | 5.0            |
+| Structured | 5.0               | 5.0            |
+## Generation summary
+Both the minimal and structured prompts scored a perfect 5.0/5.0 on faithfulness and relevance across the 15-question sample. This ceiling effect suggests the current evaluation questions — direct, single-fact KPI lookups with unambiguous context — don't sufficiently stress-test prompt differences. A more discriminating test set would include multi-step or comparative questions (e.g. "compare Electronics and Home revenue") where the structured prompt's explicit citation and "admit uncertainty" instructions would more likely diverge from the minimal prompt's behavior.
+
 
 ## Dataset summary
 

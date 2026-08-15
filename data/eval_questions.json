@@ -1,0 +1,290 @@
+[
+  {
+    "question": "How much revenue did the Beauty category generate?",
+    "doc_id": 0
+  },
+  {
+    "question": "What is the average order value for Beauty?",
+    "doc_id": 0
+  },
+  {
+    "question": "How much revenue did the Electronics category generate?",
+    "doc_id": 1
+  },
+  {
+    "question": "What is the average order value for Electronics?",
+    "doc_id": 1
+  },
+  {
+    "question": "How much revenue did the Fashion category generate?",
+    "doc_id": 2
+  },
+  {
+    "question": "What is the average order value for Fashion?",
+    "doc_id": 2
+  },
+  {
+    "question": "How much revenue did the Grocery category generate?",
+    "doc_id": 3
+  },
+  {
+    "question": "What is the average order value for Grocery?",
+    "doc_id": 3
+  },
+  {
+    "question": "How much revenue did the Home category generate?",
+    "doc_id": 4
+  },
+  {
+    "question": "What is the average order value for Home?",
+    "doc_id": 4
+  },
+  {
+    "question": "How much revenue did the Sports category generate?",
+    "doc_id": 5
+  },
+  {
+    "question": "What is the average order value for Sports?",
+    "doc_id": 5
+  },
+  {
+    "question": "What is the total revenue in AU?",
+    "doc_id": 6
+  },
+  {
+    "question": "How many customers do we have in AU?",
+    "doc_id": 6
+  },
+  {
+    "question": "What is the total revenue in BR?",
+    "doc_id": 7
+  },
+  {
+    "question": "How many customers do we have in BR?",
+    "doc_id": 7
+  },
+  {
+    "question": "What is the total revenue in CA?",
+    "doc_id": 8
+  },
+  {
+    "question": "How many customers do we have in CA?",
+    "doc_id": 8
+  },
+  {
+    "question": "What is the total revenue in DE?",
+    "doc_id": 9
+  },
+  {
+    "question": "How many customers do we have in DE?",
+    "doc_id": 9
+  },
+  {
+    "question": "What is the total revenue in IN?",
+    "doc_id": 10
+  },
+  {
+    "question": "How many customers do we have in IN?",
+    "doc_id": 10
+  },
+  {
+    "question": "What is the total revenue in UK?",
+    "doc_id": 11
+  },
+  {
+    "question": "How many customers do we have in UK?",
+    "doc_id": 11
+  },
+  {
+    "question": "What is the total revenue in US?",
+    "doc_id": 12
+  },
+  {
+    "question": "How many customers do we have in US?",
+    "doc_id": 12
+  },
+  {
+    "question": "How much revenue comes from Bronze tier customers?",
+    "doc_id": 13
+  },
+  {
+    "question": "How much revenue comes from Gold tier customers?",
+    "doc_id": 14
+  },
+  {
+    "question": "How much revenue comes from Platinum tier customers?",
+    "doc_id": 15
+  },
+  {
+    "question": "How much revenue comes from Silver tier customers?",
+    "doc_id": 16
+  },
+  {
+    "question": "What was the revenue in 2021-01?",
+    "doc_id": 17
+  },
+  {
+    "question": "What was the revenue in 2021-02?",
+    "doc_id": 18
+  },
+  {
+    "question": "What was the revenue in 2021-03?",
+    "doc_id": 19
+  },
+  {
+    "question": "What was the revenue in 2021-04?",
+    "doc_id": 20
+  },
+  {
+    "question": "What was the revenue in 2021-05?",
+    "doc_id": 21
+  },
+  {
+    "question": "What was the revenue in 2021-06?",
+    "doc_id": 22
+  },
+  {
+    "question": "What was the revenue in 2021-07?",
+    "doc_id": 23
+  },
+  {
+    "question": "What was the revenue in 2021-08?",
+    "doc_id": 24
+  },
+  {
+    "question": "What was the revenue in 2021-09?",
+    "doc_id": 25
+  },
+  {
+    "question": "What was the revenue in 2021-10?",
+    "doc_id": 26
+  },
+  {
+    "question": "What was the revenue in 2021-11?",
+    "doc_id": 27
+  },
+  {
+    "question": "What was the revenue in 2021-12?",
+    "doc_id": 28
+  },
+  {
+    "question": "What was the revenue in 2022-01?",
+    "doc_id": 29
+  },
+  {
+    "question": "What was the revenue in 2022-02?",
+    "doc_id": 30
+  },
+  {
+    "question": "What was the revenue in 2022-03?",
+    "doc_id": 31
+  },
+  {
+    "question": "What was the revenue in 2022-04?",
+    "doc_id": 32
+  },
+  {
+    "question": "What was the revenue in 2022-05?",
+    "doc_id": 33
+  },
+  {
+    "question": "What was the revenue in 2022-06?",
+    "doc_id": 34
+  },
+  {
+    "question": "What was the revenue in 2022-07?",
+    "doc_id": 35
+  },
+  {
+    "question": "What was the revenue in 2022-08?",
+    "doc_id": 36
+  },
+  {
+    "question": "What was the revenue in 2022-09?",
+    "doc_id": 37
+  },
+  {
+    "question": "What was the revenue in 2022-10?",
+    "doc_id": 38
+  },
+  {
+    "question": "What was the revenue in 2022-11?",
+    "doc_id": 39
+  },
+  {
+    "question": "What was the revenue in 2022-12?",
+    "doc_id": 40
+  },
+  {
+    "question": "What was the revenue in 2023-01?",
+    "doc_id": 41
+  },
+  {
+    "question": "What was the revenue in 2023-02?",
+    "doc_id": 42
+  },
+  {
+    "question": "What was the revenue in 2023-03?",
+    "doc_id": 43
+  },
+  {
+    "question": "What was the revenue in 2023-04?",
+    "doc_id": 44
+  },
+  {
+    "question": "What was the revenue in 2023-05?",
+    "doc_id": 45
+  },
+  {
+    "question": "What was the revenue in 2023-06?",
+    "doc_id": 46
+  },
+  {
+    "question": "What was the revenue in 2023-07?",
+    "doc_id": 47
+  },
+  {
+    "question": "What was the revenue in 2023-08?",
+    "doc_id": 48
+  },
+  {
+    "question": "What was the revenue in 2023-09?",
+    "doc_id": 49
+  },
+  {
+    "question": "What was the revenue in 2023-10?",
+    "doc_id": 50
+  },
+  {
+    "question": "What was the revenue in 2023-11?",
+    "doc_id": 51
+  },
+  {
+    "question": "What was the revenue in 2023-12?",
+    "doc_id": 52
+  },
+  {
+    "question": "How much revenue came from the Affiliate marketing channel?",
+    "doc_id": 53
+  },
+  {
+    "question": "How much revenue came from the Display marketing channel?",
+    "doc_id": 54
+  },
+  {
+    "question": "How much revenue came from the Email marketing channel?",
+    "doc_id": 55
+  },
+  {
+    "question": "How much revenue came from the Paid Search marketing channel?",
+    "doc_id": 56
+  },
+  {
+    "question": "How much revenue came from the Social marketing channel?",
+    "doc_id": 57
+  },
+  {
+    "question": "What is the total revenue across all orders?",
+    "doc_id": 58
+  }
+]
