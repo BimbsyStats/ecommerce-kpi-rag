@@ -1,11 +1,15 @@
+import os
 import sqlite3
 from pathlib import Path
 from datetime import datetime
 
-DB_PATH = Path(__file__).resolve().parent.parent / "feedback.db"
+BASE_DIR =Path(__file__).resolve().parent.parent
+DB_PATH = Path(os.getcwd()) / "feedback.db"
 
 def init_db():
-    conn = sqlite3.connect(DB_PATH)
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    conn = sqlite3.connect(str(DB_PATH.resolve()))
     conn.execute("""
         CREATE TABLE IF NOT EXISTS feedback (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

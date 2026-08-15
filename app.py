@@ -21,7 +21,7 @@ def get_engines():
 text_engine, vector_engine = get_engines()
 
 engine_choice = st.radio("Retrieval method", ["Text search", "Vector search"], horizontal=True)
-engine = text_engine if engine_choice == "Text search" else vector_engine
+engine = (text_engine if engine_choice == "Text search" else vector_engine)
 
 question = st.text_input("Your question:", placeholder="e.g. Which category made the most revenue?")
 
@@ -31,13 +31,13 @@ if "last_result" not in st.session_state:
 if st.button("Ask") and question:
     with st.spinner("Retrieving and generating answer..."):
         start = time.time()
-        result = answer_question(question, engine, PROMPT_STRICT)
+        answer, sources = answer_question(question, engine, PROMPT_STRICT)
         elapsed_ms = (time.time() - start) * 1000
 
         st.session_state.last_result = {
             "question": question,
-            "answer": result["answer"],
-            "sources": result["sources"],
+            "answer": answer,
+            "sources": sources,
             "engine": engine_choice,
             "elapsed_ms": elapsed_ms,
         }

@@ -34,8 +34,8 @@ def build_context(results):
     return "\n".join(f"- {r['text']}" for r in results)
 
 
-def rag_answer(question, search_fn, num_results=5):
-    results = search_fn(question, num_results=num_results)
+def answer_question(question, search_fn, num_results=5):
+    results = search_fn.search(question)
     context = build_context(results)
     prompt = PROMPT_TEMPLATE.format(context=context, question=question)
     response = client.chat.completions.create(
@@ -44,3 +44,4 @@ def rag_answer(question, search_fn, num_results=5):
         reasoning_effort="low",
     )
     return response.choices[0].message.content, results
+PROMPT_STRICT = PROMPT_TEMPLATE
