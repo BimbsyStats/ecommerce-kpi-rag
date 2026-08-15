@@ -8,3 +8,4 @@ feedback.db
 data/documents.json
 data/events.csv
 
+.env
