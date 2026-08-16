@@ -37,6 +37,10 @@ else:
     st.subheader("Rating distribution")
     st.bar_chart(df["rating"].value_counts().sort_index())
 
+    st.subheader("Average rating by retrieval engine")
+    avg_rating = df.dropna(subset=["rating"]).groupby("engine")["rating"].mean()
+    st.bar_chart(avg_rating)
+
     st.subheader("Response time trend")
     st.line_chart(df.set_index("timestamp")["response_time_ms"])
 
